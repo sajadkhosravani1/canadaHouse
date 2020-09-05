@@ -3,3 +3,5 @@
 .idea
 db.sqlite3
 canadaHouse/__pycache__
+gopal/migrations/__pycache__
+__pycache__
