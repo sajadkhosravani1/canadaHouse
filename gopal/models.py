@@ -28,28 +28,33 @@ objectSample = {'mlsListingID': 'R2396512',
 
 
 class City(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
+    desc = models.TextField(null=True)
 
 
 class State(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
+    desc = models.TextField(null=True)
 
 
 class Ownership(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
+    id = models.AutoField(primary_key=True)
+    value = models.CharField(max_length=100, unique=True)
+    desc = models.TextField(null=True)
 
 
 class Media(models.Model):
-    id = models.IntegerField(primary_key=True)
-    src = models.TextField()
+    house = models.ForeignKey('House',on_delete=models.CASCADE,default=None)
+    src = models.CharField(max_length=200)
+    desc = models.TextField(null=True)
 
 
 class Type(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100,unique=True)
+    desc = models.TextField(null=True)
 
 
 class House(models.Model):
@@ -63,7 +68,6 @@ class House(models.Model):
     bedrooms = models.IntegerField()
     baths = models.IntegerField()
     dateListed = models.DateTimeField()
-    media = models.ForeignKey(Media, on_delete=models.CASCADE)
     mediaURL = models.TextField()
     sizel = models.IntegerField()
     sizeh = models.IntegerField()
