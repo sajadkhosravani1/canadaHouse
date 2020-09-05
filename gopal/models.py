@@ -32,11 +32,17 @@ class City(models.Model):
     name = models.CharField(max_length=100, unique=True)
     desc = models.TextField(null=True)
 
+    def __str__(self):
+        return self.name
+
 
 class State(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, unique=True)
     desc = models.TextField(null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Ownership(models.Model):
@@ -44,17 +50,25 @@ class Ownership(models.Model):
     value = models.CharField(max_length=100, unique=True)
     desc = models.TextField(null=True)
 
+    def __str__(self):
+        return self.value
 
 class Media(models.Model):
     house = models.ForeignKey('House',on_delete=models.CASCADE,default=None)
     src = models.CharField(max_length=200)
     desc = models.TextField(null=True)
 
+    def __str__(self):
+        return self.house.mediaURL+self.src
+
 
 class Type(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100,unique=True)
     desc = models.TextField(null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class House(models.Model):
@@ -79,3 +93,5 @@ class House(models.Model):
     office = models.CharField(max_length=200)
     lol_type = models.ForeignKey(Type, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return 'R%i'%self.id
