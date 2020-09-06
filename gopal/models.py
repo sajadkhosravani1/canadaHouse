@@ -53,6 +53,7 @@ class Ownership(models.Model):
     def __str__(self):
         return self.value
 
+
 class Media(models.Model):
     house = models.ForeignKey('House',on_delete=models.CASCADE,default=None)
     src = models.CharField(max_length=200)
@@ -83,13 +84,13 @@ class House(models.Model):
     baths = models.IntegerField()
     dateListed = models.DateTimeField()
     mediaURL = models.TextField()
-    sizel = models.IntegerField()
-    sizeh = models.IntegerField()
-    square_footage = models.IntegerField()
-    acres = models.FloatField()
+    # Since in API's ADT, "size" field has min and max values which both are the same.
+    # And "squareFootage" field is 0 for most of the objects.
+    # In API "size" field has been used instead of square foot.
+    # So we have ignored "squareFootage" field.
+    # Since "acres" field is derived from "size" so we have ignored that too.
+    size = models.IntegerField()
     title = models.CharField(max_length=200)
-    position_lat = models.IntegerField()
-    position_lng = models.IntegerField()
     office = models.CharField(max_length=200)
     lol_type = models.ForeignKey(Type, on_delete=models.CASCADE)
 
