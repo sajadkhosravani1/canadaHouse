@@ -60,7 +60,6 @@ class Command(BaseCommand):
             dt = parse_datetime(dicObject['dateListed'])
             from django.utils import timezone
             dt = timezone.get_current_timezone().localize(dt, is_dst=None)
-
             house = House(
                 id=houseId, address=dicObject['address'],
                 city=city, state=state, ownership=ownership,
@@ -91,7 +90,7 @@ class Command(BaseCommand):
             r = None
             try:
                 r = requests.get(
-                    """https://gopalsharma.ca/carmen-api/fvrebgv/carmen?limit=%i&price.gte=%i&price.lte=%i&latitude.gt=49.255846736035494&latitude.lt=49.311835132478706&longitude.gt=-123.2269100616455&longitude.lt=-123.01456493835448&sortBy=dateListed&order=desc HTTP/1.1""" \
+                    """https://gopalsharma.ca/carmen-api/fvrebgv/carmen?limit=%i&price.gte=%i&price.lte=%i&latitude.gt=49.255846736035494&latitude.lt=49.311835132478706&longitude.gt=-123.2269100616455&longitude.lt=-123.01456493835448&sortBy=dateListed&order=desc""" \
                     % (Command.limit, *Command.priceRange))
                 if r.status_code != 200:
                     r.raise_for_status()
