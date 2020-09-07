@@ -13,12 +13,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         from datetime import datetime
-        from django.utils.dateparse import parse_datetime
         from django.utils import timezone
 
-
-        import pytz
-        if options['date'][0] == "now":
+        if options['date'][0] == 'now':
             dt = timezone.now()
         else:
             try:
@@ -29,4 +26,14 @@ class Command(BaseCommand):
                     raise ValueError("Incorrect date format, should be 'YYYY-MM-DD hh:mm:ss' or 'YYYY-MM-DD'")
 
             dt = timezone.get_current_timezone().localize(dt, is_dst=None)
-        House.objects.filter(dateListed__lt=dt).delete()
+        filtered = House.objects.filter(dateListed__lt=dt)
+        count = filtered.count()
+        if count == 0:
+            self.stdout.write(self.style.SUCCESS("There is nothing to delete with entered condition."))
+        elif input("%i cases to delete. Are you sure?"%count).lower().startswith('y'):
+            filtered.delete()
+            self.stdout.write(self.style.SUCCESS("%i cases has been deleted successfully."%count))
+        else:
+            print("Nothing has been deleted.")
+
+
