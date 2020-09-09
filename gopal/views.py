@@ -4,18 +4,21 @@ app_name = 'gopal'
 
 
 def home(request):
-    return HttpResponse("What do you want to do?")
+    context = {}
+    return render(request,'gopal/home.html',context)
     pass
 
 
 def list(request):
-    print(request.GET)
-    return HttpResponse("houses")
+    # request.GET
+    context = {}
+    return render(request,'gopal/list.html',context)
     pass
 
 
 def estimate(request):
-    return HttpResponse("Price estimating.")
+    context = {}
+    return render(request,'gopal/estimate.html',context)
     pass
 
 
