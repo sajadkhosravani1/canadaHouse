@@ -1,6 +1,5 @@
 from django.shortcuts import render,HttpResponse
-
-app_name = 'gopal'
+from gopal.models import *
 
 
 def home(request):
@@ -10,8 +9,29 @@ def home(request):
 
 
 def list(request):
-    # request.GET
-    context = {}
+    houses = House.objects.all()
+
+    if hasattr(request,'GET'):
+        print(request.GET)
+        if 'price_least' in request.GET.keys():
+            houses = houses.filter(price__gt=int(request.GET['price_least']))
+        if 'price_most' in request.GET.keys():
+            houses = houses.filter(price__lt=int(request.GET['price_most']))
+        if 'city' in request.GET.keys():
+            houses = houses.filter(city=request.GET['city'])
+        if 'state' in request.GET.keys():
+            houses = houses.filter(city=request.GET['state'])
+
+    for house in houses:
+        ans = house.media_set.all()
+        if len(ans) > 0:
+            house.img_src = ans[0]
+        else:
+            house.img_src = None
+    context = {
+        'count': len(houses),
+        'houses': houses,
+    }
     return render(request,'gopal/list.html',context)
     pass
 
