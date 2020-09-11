@@ -1,0 +1,13 @@
+.house-image {
+    width:256px;!important;
+    height:256px;!important;
+    background-repeat: no-repeat;!important;
+    background-position: center;!important;
+}
+
+.list-card {
+    text-align: center;
+    margin: 30px 10px;
+    color: black;
+}
+
