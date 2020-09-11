@@ -10,27 +10,39 @@ def home(request):
 
 def list(request):
     houses = House.objects.all()
+    states = State.objects.all()
+    cities = City.objects.all()
+    empty = False
 
     if hasattr(request,'GET'):
         print(request.GET)
-        if 'price_least' in request.GET.keys():
+        if len(houses)>0 and 'price_least' in request.GET.keys() and len(request.GET['price_least']):
+            print('price_least:',request.GET['price_least'])
             houses = houses.filter(price__gt=int(request.GET['price_least']))
-        if 'price_most' in request.GET.keys():
+        if len(houses)>0 and 'price_most' in request.GET.keys() and len(request.GET['price_most']):
+            print('price_most:',request.GET['price_most'] )
             houses = houses.filter(price__lt=int(request.GET['price_most']))
-        if 'city' in request.GET.keys():
-            houses = houses.filter(city=request.GET['city'])
-        if 'state' in request.GET.keys():
-            houses = houses.filter(city=request.GET['state'])
+        if len(houses)>0 and 'city' in request.GET.keys() and len(request.GET['city']):
+            print('city:',request.GET['city'])
+            houses = houses.filter(city=City.objects.get(name=request.GET['city']))
+        if len(houses)>0 and 'state' in request.GET.keys() and len(request.GET['state']):
+            print('state:',request.GET['state'])
+            houses = houses.filter(state=State.objects.get(name=request.GET['state']))
+
+    if len(houses) == 0: empty = True
 
     for house in houses:
         ans = house.media_set.all()
-        if len(ans) > 0:
-            house.img_src = ans[0]
-        else:
-            house.img_src = None
+        # if len(ans) > 0:
+        #     house.img_src = ans[0]
+        # else:
+        house.img_src = None
     context = {
         'count': len(houses),
         'houses': houses,
+        'states': states,
+        'cities': cities,
+        'empty': empty
     }
     return render(request,'gopal/list.html',context)
     pass
@@ -46,7 +58,6 @@ def house_view(request,house_id):
     import requests
     r = requests.get('https://gopalsharma.ca/listing/R'+str(house_id))
     if r.status_code == 200:
-        print(r)
         return HttpResponse(r.text)
     else:
         return HttpResponse("house with %d id details." % house_id)
