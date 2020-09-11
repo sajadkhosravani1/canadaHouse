@@ -10,47 +10,53 @@
     <form id="filter-form-container" class="form-inline" method="get" >
         <label for="select-state" class="text-light ml-2 mr-1">State</label>
         <select class="form-control" id="select-state" name="state">
-            <option>Default select</option>
-            <option>Default select</option>
-            <option>Default select</option>
-            <option>Default select</option>
+            {% for state in states %}
+                <option>{{ state.name }}</option>
+            {% endfor %}
         </select>
 
         <label for="select-city" class="text-light ml-3 mr-1">City</label>
         <select class="form-control" id="select-city" name="city">
-            <option>Default select</option>
-            <option>Default select</option>
-            <option>Default select</option>
-            <option>Default select</option>
+            {% for city in cities %}
+                <option>{{ city.name }}</option>
+            {% endfor %}
         </select>
 
         <label class="text-light ml-5 mr-2"><strong>Price:</strong></label>
         <label for="price-least" class="text-light ml-2 mr-1">From</label>
         <input class="form-control price-input" type="number" name="price_least" id="price-least">
-        <label for="price-least" class="text-light ml-2 mr-1">To</label>
-        <input class="form-control price-input" type="number" name="price_least" id="price-least">
+        <label for="price-most" class="text-light ml-2 mr-1">To</label>
+        <input class="form-control price-input" type="number" name="price_most" id="price-most">
         <button type="submit" class="btn btn-success ml-auto mr-3"> Reload </button>
     </form>
     <div id="empty"></div>
     <div class="d-flex flex-wrap">
-    {% for house in houses %}
-        <a href="{% url 'gopal:house_view' house_id=house.id%}" class="card-link">
-        <div class="card list-card">
-        <div class="house-image" style="background-image:url('{% if house.img_src %}{{ house.img_src }}{% else %}{% static "gopal/image/house.png"  %}{% endif%}');"></div>
+    {% if not empty %}
+        {% for house in houses %}
+            <a href="{% url 'gopal:house_view' house_id=house.id%}" class="card-link">
+            <div class="card list-card">
+            <div class="house-image" style="background-image:url('{% if house.img_src %}{{ house.img_src }}{% else %}{% static "gopal/image/house.png"  %}{% endif%}');"></div>
 
-            <div class="card-body">
-                <h5 class="card-title">{{ house.price }}$</h5>
-                <p class="card-text">{{house.title}}</p>
+                <div class="card-body">
+                    <h5 class="card-title">{{ house.price }}$</h5>
+                    <p class="card-text">{{house.title}}</p>
+                </div>
+
+                <ul class="list-group list-group-flush p-4" >
+                    <li class="list-group-item">{{ house.address }}</li>
+                    <li class="list-group-item">{{ house.city}},{{ house.state }}</li>
+                    <li class="list-group-item">{{ house.office}}</li>
+                </ul>
             </div>
-
-            <ul class="list-group list-group-flush p-4" >
-                <li class="list-group-item">{{ house.address }}</li>
-                <li class="list-group-item">{{ house.city}},{{ house.state }}</li>
-                <li class="list-group-item">{{ house.office}}</li>
-            </ul>
+            </a>
+        {% endfor %}
+    {% else %}
+        <div class="mx-auto">
+            <img src="{% static "gopal/image/notfound.png" %}" class="mx-auto d-block"/>
+            <h2 class="d-block mx-auto text-center">Nothing found!</h2>
         </div>
-        </a>
-    {% endfor %}
+
+    {% endif %}
     </div>
 {% endblock %}
 
