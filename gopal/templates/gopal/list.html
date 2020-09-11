@@ -1,4 +1,32 @@
 {% extends 'gopal/baseTemplate.html' %}
-{% block body %}
+{% load static %}
+{% block title %}
+    Houses
+{% endblock %}
 
+
+
+{% block body %}
+    <h1 class="text-center">Listed houses</h1>
+
+    {% for house in houses %}
+        <a href="{% url 'gopal:house_view' house_id=house.id%}" class="card-link">
+        <div class="card list-card" style="width: 20rem;">
+        <div class="house-image" style="background-image:url('{% if house.img_src %}{{ house.img_src }}{% else %}{% static "gopal/image/house.png"  %}{% endif%}');"></div>
+
+            <div class="card-body">
+                <h5 class="card-title">{{ house.price }}$</h5>
+                <p class="card-text">{{house.title}}</p>
+            </div>
+
+            <ul class="list-group list-group-flush p-4" >
+                <li class="list-group-item">{{ house.address }}</li>
+                <li class="list-group-item">{{ house.city}},{{ house.state }}</li>
+                <li class="list-group-item">{{ house.office}}</li>
+            </ul>
+        </div>
+        </a>
+
+
+    {% endfor %}
 {% endblock %}
