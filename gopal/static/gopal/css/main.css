@@ -16,11 +16,17 @@
     overflow: hidden;
     background-color: #333;
     z-index: 2;
+    border-radius: 1rem;
+    height: 4rem!important;
 }
 
 .sticky {
     position: fixed;
     top: 0;
-    width: 100%
+    width: 69rem!important;
+}
+
+.price-input {
+    max-width: 7rem!important;
 }
 
