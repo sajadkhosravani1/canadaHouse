@@ -6,8 +6,21 @@
 }
 
 .list-card {
+    width: 20rem;
     text-align: center;
     margin: 30px 10px;
     color: black;
+}
+
+#filter-form-container {
+    overflow: hidden;
+    background-color: #333;
+    z-index: 2;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%
 }
 
