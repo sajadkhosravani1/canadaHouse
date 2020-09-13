@@ -33,10 +33,9 @@ def list(request):
 
     for house in houses:
         ans = house.media_set.all()
-        # if len(ans) > 0:
-        #     house.img_src = ans[0]
-        # else:
-        house.img_src = None
+        if len(ans) > 0:
+            house.img_src = ans[0]
+        else:house.img_src = None
     context = {
         'count': len(houses),
         'houses': houses,
