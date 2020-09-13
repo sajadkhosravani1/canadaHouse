@@ -4,9 +4,10 @@
 {% endblock %}
 
 {% block body %}
-<div class="jumbotron">
-    <h1 class="text-center pt-3 pb-5 display-4"><b><strong>Estimate price</strong></b><b>!!</b></h1>
+<div class="jumbotron mt-5">
+    <h1 class="text-center pb-5 display-4"><b><strong>Estimate price</strong></b><b>!!</b></h1>
     <p class="lead">Here you can estimate your favorite hypothetical house price!!<br></p>
+    <div id="alerts-container">
     <div class="alert alert-primary" role="alert">
         Fill the following form by your favorite house features.
     </div>
@@ -16,8 +17,10 @@
     <div class="alert alert-success" role="alert">
         The estimated value is : 1800000$
     </div>
+    </div>
+
     <hr class="my-4">
-    <form method="get">
+    <form method="post">
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="size">Size(by square foot)</label>
@@ -62,8 +65,36 @@
                 </select>
             </div>
         </div>
-        <button type="submit" class="btn btn-success mt-4">Calculate</button>
+        <button type="button" onclick="validateAndSubmit()" class="btn btn-success mt-4">Calculate</button>
     </form>
 
 </div>
+{% endblock %}
+
+{% block more-js %}
+    <script>
+        function validateAndSubmit() {
+            $('#alerts-container').empty()
+            alertContainer = document.getElementById("alerts-container")
+            size = document.getElementById('size')
+            bedRooms = document.getElementById('bed-rooms')
+            bathRooms = document.getElementById('bath-rooms')
+            if (size.value =="") {
+                alertContainer.innerHTML = alertContainer.innerHTML+
+                    "<div class='alert alert-danger' role='alert'>\"Size\" field can not be empty!</div>"
+                return
+            }
+            if (bedRooms.value == "") {
+                alertContainer.innerHTML = alertContainer.innerHTML+
+                    "<div class='alert alert-danger' role='alert'>\"Bed rooms count\" field can not be empty!</div>"
+                return
+            }
+            if (bathRooms.value == "") {
+                alertContainer.innerHTML = alertContainer.innerHTML+
+                    "<div class='alert alert-danger' role='alert'>\"Bath rooms count\" field can not be empty!</div>"
+                return
+            }
+            document.getElementsByTagName('form')[0].submit()
+        }
+    </script>
 {% endblock %}
