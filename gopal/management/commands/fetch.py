@@ -18,62 +18,62 @@ class Command(BaseCommand):
         if objects is None: return
         count = 0
         for dicObject in objects:
-            houseId = int(dicObject['mlsListingID'][1:])
+            try:
+                houseId = int(dicObject['mlsListingID'][1:])
+                if House.objects.filter(id=houseId).exists():
+                    # In lazy mode we would assume that when we bump into a case that we have already saved that means
+                    # we have already saved the rest. because the cases are sorted by date.
+                    if Command.lazy:
+                        break
+                    else:
+                        continue
 
-            if House.objects.filter(id=houseId).exists():
-                # In lazy mode we would assume that when we bump into a case that we have already saved that means
-                # we have already saved the rest. because the cases are sorted by date.
-                if Command.lazy:
-                    break
+                city = City(name=dicObject['city'])
+                filtered = City.objects.filter(name=city.name)
+                if not filtered.exists():
+                    city.save()
                 else:
-                    continue
+                    city = filtered[0]
 
-            city = City(name=dicObject['city'])
-            filtered = City.objects.filter(name=city.name)
-            if not filtered.exists():
-                city.save()
-            else:
-                city = filtered[0]
+                state = State(name=dicObject['state'])
+                filtered = State.objects.filter(name=state.name)
+                if not filtered.exists():
+                    state.save()
+                else:
+                    state = filtered[0]
 
-            state = State(name=dicObject['state'])
-            filtered = State.objects.filter(name=state.name)
-            if not filtered.exists():
-                state.save()
-            else:
-                state = filtered[0]
+                ownership = Ownership(value=dicObject['ownership'])
+                filtered = Ownership.objects.filter(value=ownership.value)
+                if not filtered.exists():
+                    ownership.save()
+                else:
+                    ownership = filtered[0]
 
-            ownership = Ownership(value=dicObject['ownership'])
-            filtered = Ownership.objects.filter(value=ownership.value)
-            if not filtered.exists():
-                ownership.save()
-            else:
-                ownership = filtered[0]
+                lol_type = Type(name=dicObject['lolType'])
+                filtered = Type.objects.filter(name=lol_type.name)
+                if not filtered.exists():
+                    lol_type.save()
+                else:
+                    lol_type = filtered[0]
 
-            lol_type = Type(name=dicObject['lolType'])
-            filtered = Type.objects.filter(name=lol_type.name)
-            if not filtered.exists():
-                lol_type.save()
-            else:
-                lol_type = filtered[0]
-
-            from django.utils.dateparse import parse_datetime
-            dt = parse_datetime(dicObject['dateListed'])
-            from django.utils import timezone
-            dt = timezone.get_current_timezone().localize(dt, is_dst=None)
-            house = House(
-                id=houseId, address=dicObject['address'],
-                city=city, state=state, ownership=ownership,
-                public_remarks=dicObject['publicRemarks'], price=dicObject['price'],
-                bedrooms=dicObject['bedrooms'], baths=dicObject['baths'],
-                dateListed=dt,
-                mediaURL=dicObject['mediaURL'],
-                size=dicObject['size']['low'], title=dicObject['title'],
-                office=dicObject['office'], lol_type=lol_type)
-            house.save()
-            for imgSrc in dicObject['media']:
-                Media(house=house, src=imgSrc).save()
-            count += 1
-
+                from django.utils.dateparse import parse_datetime
+                dt = parse_datetime(dicObject['dateListed'])
+                from django.utils import timezone
+                dt = timezone.get_current_timezone().localize(dt, is_dst=None)
+                house = House(
+                    id=houseId, address=dicObject['address'],
+                    city=city, state=state, ownership=ownership,
+                    public_remarks=dicObject['publicRemarks'], price=dicObject['price'],
+                    bedrooms=dicObject['bedrooms'], baths=dicObject['baths'],
+                    dateListed=dt,
+                    mediaURL=dicObject['mediaURL'],
+                    size=dicObject['size']['low'], title=dicObject['title'],
+                    office=dicObject['office'], lol_type=lol_type)
+                house.save()
+                for imgSrc in dicObject['media']:
+                    Media(house=house, src=imgSrc).save()
+                count += 1
+            except: continue
         if count > 0:
             self.stdout.write(self.style.SUCCESS("%i new cases has been added successfully." % count))
         else:
@@ -94,6 +94,9 @@ class Command(BaseCommand):
                     % (Command.limit, *Command.priceRange))
                 if r.status_code != 200:
                     r.raise_for_status()
+                self.stdout.write(self.style.SUCCESS("Data has been received."))
+                self.stdout.write("It may take couple of minutes to parse and write data into our local database.")
+
             except ConnectionError:
                 self.stderr.write("Connection error")
                 return None
