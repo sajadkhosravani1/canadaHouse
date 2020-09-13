@@ -77,22 +77,22 @@ class House(models.Model):
     address = models.TextField()
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
-    ownership = models.ForeignKey(Ownership, on_delete=models.CASCADE)
-    public_remarks = models.TextField()
+    ownership = models.ForeignKey(Ownership, on_delete=models.CASCADE,null=True)
+    public_remarks = models.TextField(null=True)
     price = models.IntegerField()
     bedrooms = models.IntegerField()
     baths = models.IntegerField()
-    dateListed = models.DateTimeField()
-    mediaURL = models.TextField()
+    dateListed = models.DateTimeField(null=True)
+    mediaURL = models.TextField(null=True)
     # Since in API's ADT, "size" field has min and max values which both are the same.
     # And "squareFootage" field is 0 for most of the objects.
     # In API "size" field has been used instead of square foot.
     # So we have ignored "squareFootage" field.
     # Since "acres" field is derived from "size" so we have ignored that too.
     size = models.IntegerField()
-    title = models.CharField(max_length=200)
-    office = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, null=True)
+    office = models.CharField(max_length=200, null=True)
     lol_type = models.ForeignKey(Type, on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'R%i'%self.id
+        return 'R%i' % self.id
