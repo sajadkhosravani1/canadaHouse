@@ -4,48 +4,66 @@
 {% endblock %}
 
 {% block body %}
-<form>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="inputEmail4">Email</label>
-            <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="inputPassword4">Password</label>
-            <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-        </div>
+<div class="jumbotron">
+    <h1 class="text-center pt-3 pb-5 display-4"><b><strong>Estimate price</strong></b><b>!!</b></h1>
+    <p class="lead">Here you can estimate your favorite hypothetical house price!!<br></p>
+    <div class="alert alert-primary" role="alert">
+        Fill the following form by your favorite house features.
     </div>
-    <div class="form-group">
-        <label for="inputAddress">Address</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+    <div class="alert alert-danger" role="alert">
+        Wrong input. Size field must be positive integer number.
     </div>
-    <div class="form-group">
-        <label for="inputAddress2">Address 2</label>
-        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+    <div class="alert alert-success" role="alert">
+        The estimated value is : 1800000$
     </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="inputCity">City</label>
-            <input type="text" class="form-control" id="inputCity">
+    <hr class="my-4">
+    <form method="get">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="size">Size(by square foot)</label>
+                <input type="number" class="form-control" id="size" placeholder="Enter size">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="bed-rooms">Bed rooms count</label>
+                <input type="number" class="form-control" id="bed-rooms" placeholder="Enter count" >
+            </div>
+            <div class="form-group col-md-2">
+                <label for="bath-rooms">Bath rooms count</label>
+                <input type="number" class="form-control" id="bath-rooms" placeholder="Enter count">
+            </div>
         </div>
-        <div class="form-group col-md-4">
-            <label for="inputState">State</label>
-            <select id="inputState" class="form-control">
-                <option selected>Choose...</option>
-                <option>...</option>
-            </select>
+        <div class="form-row mt-4">
+            <div class="form-group col-md-3">
+                <label for="state">State</label>
+                <select id="state" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="city">City</label>
+                <select id="city" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="type">House type</label>
+                <select id="type" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="ownership">Ownership</label>
+                <select id="ownership" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+            </div>
         </div>
-        <div class="form-group col-md-2">
-            <label for="inputZip">Zip</label>
-            <input type="text" class="form-control" id="inputZip">
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="gridCheck">
-            <label class="form-check-label" for="gridCheck">Check me out</label>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
+        <button type="submit" class="btn btn-success mt-4">Calculate</button>
+    </form>
+
+</div>
 {% endblock %}
