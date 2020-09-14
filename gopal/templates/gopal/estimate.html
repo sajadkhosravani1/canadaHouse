@@ -8,64 +8,63 @@
     <h1 class="text-center pb-5 display-4"><b><strong>Estimate price</strong></b><b>!!</b></h1>
     <p class="lead">Here you can estimate your favorite hypothetical house price!!<br></p>
     <div id="alerts-container">
-    <div class="alert alert-primary" role="alert">
-        Fill the following form by your favorite house features.
-    </div>
-    <div class="alert alert-danger" role="alert">
-        Wrong input. Size field must be positive integer number.
-    </div>
-    <div class="alert alert-success" role="alert">
-        The estimated value is : 1800000$
-    </div>
+        {% if predicted_price %}
+            <div class="alert alert-success text-center lead" role="alert">Predicted price is <b>{{ predicted_price }} $</b></div>
+        {% endif %}
     </div>
 
     <hr class="my-4">
-    <form method="post">
+    <form method="post" action="#">
+        {% csrf_token %}
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="size">Size(by square foot)</label>
-                <input type="number" class="form-control" id="size" placeholder="Enter size">
+                <input name="size" type="number" class="form-control" id="size" placeholder="Enter size" value="{{ size }}">
             </div>
             <div class="form-group col-md-2">
                 <label for="bed-rooms">Bed rooms count</label>
-                <input type="number" class="form-control" id="bed-rooms" placeholder="Enter count" >
+                <input name="bedrooms" type="number" class="form-control" id="bed-rooms" placeholder="Enter count" value="{{ bedrooms }}" >
             </div>
             <div class="form-group col-md-2">
-                <label for="bath-rooms">Bath rooms count</label>
-                <input type="number" class="form-control" id="bath-rooms" placeholder="Enter count">
+                <label  for="bath-rooms">Bath rooms count</label>
+                <input name="baths" type="number" class="form-control" id="bath-rooms" placeholder="Enter count" value="{{ baths }}">
             </div>
         </div>
         <div class="form-row mt-4">
             <div class="form-group col-md-3">
                 <label for="state">State</label>
-                <select id="state" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
+                <select name='state' id="state" class="form-control" value="{{ state }}">
+                    {% for state in states %}
+                        <option>{{ state }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="city">City</label>
-                <select id="city" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
+                <select name='city' id="city" class="form-control" value="{{ city }}">
+                    {% for city in cities %}
+                        <option>{{ city }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="type">House type</label>
-                <select id="type" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
+                <select name='type' id="type" class="form-control" value="{{ type }}">
+                    {% for type in types %}
+                        <option>{{ type }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="ownership">Ownership</label>
-                <select id="ownership" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
+                <select name='ownership' id="ownership" class="form-control" value="ownership">
+                    {% for item in ownerships %}
+                        <option>{{ item }}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>
-        <button type="button" onclick="validateAndSubmit()" class="btn btn-success mt-4">Calculate</button>
+        <button type="button" onclick="validateAndSubmit()"  class="btn btn-success mt-4">Calculate</button>
     </form>
 
 </div>
@@ -74,6 +73,7 @@
 {% block more-js %}
     <script>
         function validateAndSubmit() {
+            console.log("Itarim daii!")
             $('#alerts-container').empty()
             alertContainer = document.getElementById("alerts-container")
             size = document.getElementById('size')
