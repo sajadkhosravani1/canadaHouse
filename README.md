@@ -36,14 +36,34 @@ python manage.py fetch <limit>
 ```
 Use an integer instead \<limit> so api can limit fetched objects count.
 We can make some configurations in fetch.py file.
-#### lazy mode 
+
+#### "lazy" mode
 In lazy mode we would assume that when we bump into a case that we have already saved that means
 we have already saved the rest, so breaks the loops. because the cases are sorted by date.
 But when lazy mode is off, every single objects will be checked.
 You can simply turn on/off lazy mode by changing the lazy variable to True/False in fetch.py file.
 
-#### price limit
-You can also config the min and max price to fetch 
-and store as simple as editing the priceRange list variable in fetch.py file.
-First item is Min value adn Second item is Max value in dollars.
+#### Price limit
+We can also config the min and max price, to limit and speed-up fetch operation, 
+as simple as editing the priceRange list variable, in fetch.py file.
+The first item is Min value and the Second item is Max value in dollars.
 
+
+## "delete_before" command
+We can delete out-dated house records by the following command.
+```bash
+python manage.py "<datetime>"
+``` 
+\<datetime> is Date and time with "YYYY-MM-DD hh:mm:ss" format 
+or only date in "YYYY-MM-DD" format.
+
+
+## Train 
+We can simply train the agent to estimate the house price by "train" command.
+The train result will be saved in houses_trained.pkl file. 
+The result will be read and used when user sends estimate request to houses/estimate web page.
+We can use train the agent by following command:
+```bash 
+python manage.py train <percentage>
+``` 
+\<percentage> is an integer specifying train set percentage ratio than the all of dataset.
