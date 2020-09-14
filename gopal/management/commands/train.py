@@ -18,18 +18,19 @@ class Command(BaseCommand):
                       house.lol_type.id,house.state.id,house.city.id,house.ownership.id])
             y.append(house.price)
 
+        test_set_percent = int(options['percent'][0])/100
+        train_set_len = int(len(x)*test_set_percent)
+
         from sklearn import linear_model
+        from sklearn.metrics import r2_score
         regr = linear_model.LinearRegression()
-        regr.fit(x, y)
+        regr.fit(x[:train_set_len], y[:train_set_len])
 
         import pickle
         # save in houses_trained.pkl
         with open('houses_trained.pkl', 'wb') as f:
             pickle.dump(regr, f)
 
-        # load
-        # with open('model.pkl', 'rb') as f:
-        #     clf2 = pickle.load(f)
-
-        self.stdout.write(self.style.SUCCESS(str(options['percent'][0])))
+        score = r2_score(y[train_set_len:], regr.predict(x[train_set_len:]))
+        self.stdout.write(self.style.SUCCESS("r2 score: "+str(score)))
 
