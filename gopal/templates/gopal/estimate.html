@@ -9,7 +9,12 @@
     <p class="lead">Here you can estimate your favorite hypothetical house price!!<br></p>
     <div id="alerts-container">
         {% if predicted_price %}
-            <div class="alert alert-success text-center lead" role="alert">Predicted price is <b>{{ predicted_price }} $</b></div>
+            {% if predicted_price > 0 %}
+                <div class="alert alert-success text-center lead" role="alert">The estimated price is <b>{{ predicted_price }} $</b></div>
+            {% else %}
+                <div class="alert alert-warning text-center lead" role="alert">The estimated price is <b>{{ predicted_price }} $</b>.
+                    The entered data doesn't make sense.</div>
+            {% endif %}
         {% endif %}
     </div>
 
@@ -33,33 +38,49 @@
         <div class="form-row mt-4">
             <div class="form-group col-md-3">
                 <label for="state">State</label>
-                <select name='state' id="state" class="form-control" value="{{ state }}">
-                    {% for state in states %}
-                        <option>{{ state }}</option>
+                <select name='state' id="state" class="form-control">
+                    {% for item in states %}
+                        {% if item == state %}
+                            <option selected>{{ item }}</option>
+                        {% else %}
+                            <option>{{ item }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="city">City</label>
-                <select name='city' id="city" class="form-control" value="{{ city }}">
-                    {% for city in cities %}
-                        <option>{{ city }}</option>
+                <select name='city' id="city" class="form-control">
+                    {% for item in cities %}
+                        {% if item == city %}
+                            <option selected>{{ item }}</option>
+                        {% else %}
+                            <option>{{ item }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="type">House type</label>
-                <select name='type' id="type" class="form-control" value="{{ type }}">
-                    {% for type in types %}
-                        <option>{{ type }}</option>
+                <select name='type' id="type" class="form-control" >
+                    {% for item in types %}
+                        {% if item == type %}
+                            <option selected>{{ item }}</option>
+                        {% else %}
+                            <option>{{ item }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="ownership">Ownership</label>
-                <select name='ownership' id="ownership" class="form-control" value="ownership">
+                <select name='ownership' id="ownership" class="form-control">
                     {% for item in ownerships %}
-                        <option>{{ item }}</option>
+                        {% if item == ownership %}
+                            <option selected>{{ item }}</option>
+                        {% else %}
+                            <option>{{ item }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
