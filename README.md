@@ -40,7 +40,7 @@ The purpose data are observable at here:`https://gopalsharma.ca/1000000-1500000`
 You can also see the hyper texts in your browser in inspect mode.
 But you would not be able to receive the relative hyper texts by code simply with a request to the url.
 And you will see the container of our purpose data with no content. 
-(The container's tag-id is 'carmen' which would be empty).
+(The container's tag-id is `carmen` which would be empty).
 So it's obvious that there's some js that downloads the content in the browser, as it arrives to the client side.
 So we have to find that js code to see where it fetches data from.
 I have implemented a django command that finds all of imported js files' urls.
@@ -61,10 +61,10 @@ You can simply use it as following.
 ```bash
 python manage.py fetch <limit>
 ```
-Use an integer instead \<limit> so api can limit fetched objects count.
+Use an integer instead `<limit>` so api can limit fetched objects count.
 We can make some configurations in fetch.py file.
 
-#### "lazy" mode
+#### `lazy` mode
 In lazy mode we would assume that when we bump into a case that we have already saved that means
 we have already saved the rest, so breaks the loops. because the cases are sorted by date.
 But when lazy mode is off, every single objects will be checked.
@@ -76,26 +76,26 @@ as simple as editing the priceRange list variable, in fetch.py file.
 The first item is Min value and the Second item is Max value in dollars.
 
 
-## "delete_before" command
+## `delete_before` command
 We can delete out-dated house records by the following command.
 ```bash
 python manage.py "<datetime>"
 ``` 
-\<datetime> is Date and time with "YYYY-MM-DD hh:mm:ss" format 
-or only date in "YYYY-MM-DD" format.
+`<datetime>` is Date and time with `YYYY-MM-DD hh:mm:ss` format 
+or only date in `YYYY-MM-DD` format.
 
 
 ## Train 
-We can simply train the agent to estimate the house price by "train" command.
+We can simply train the agent to estimate the house price by `train` command.
 The train result will be saved in houses_trained.pkl file. 
 The result will be read and used when user sends estimate request to houses/estimate web page.
 We can use train the agent by following command:
 ```bash 
 python manage.py train <percentage>
 ``` 
-\<percentage> is an integer specifying train set percentage ratio than the all of dataset.
+`<percentage>` is an integer specifying train set percentage ratio than the all of dataset.
 
-When the train operation finished the "r2 score" of test-set estimating will be reported.
+When the train operation finished the `r2 score` of test-set estimating will be reported.
 
 
 ## TODO list
@@ -107,4 +107,4 @@ When the train operation finished the "r2 score" of test-set estimating will be 
 - [x] URL dispatching
 - [x] Houses list view and template
 - [x] Houses estimate view and template
-- [ ] Home view 
+- [x] Home view 
