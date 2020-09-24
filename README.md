@@ -17,7 +17,7 @@ To run project in development mode, Just use steps below:
   ```bash
   git clone https://github.com/sajadkhosravani1/canadaHouse && cd canadaHouse
   virtualenv -p python3 venv # Create virtualenv named venv
-  source build/bin/activate
+  source venv/bin/activate
   pip install -r requirements.txt
   python manage.py migrate
   ```
